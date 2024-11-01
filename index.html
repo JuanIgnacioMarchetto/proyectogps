@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localizador GPS de Usuarios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 300px;
+        }
+        .location {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Localizador de Usuarios</h1>
+        <button onclick="getUserLocation()">Obtener Ubicación de Usuario 1</button>
+        <div id="location1" class="location"></div>
+        <button onclick="getOtherUserLocation()">Obtener Ubicación de Usuario 2</button>
+        <div id="location2" class="location"></div>
+    </div>
+
+    <script>
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition1, showError);
+            } else {
+                document.getElementById("location1").innerHTML = "Geolocalización no es soportada por este navegador.";
+            }
+        }
+
+        function getOtherUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition2, showError);
+            } else {
+                document.getElementById("location2").innerHTML = "Geolocalización no es soportada por este navegador.";
+            }
+        }
+
+        function showPosition1(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById("location1").innerHTML = "Usuario 1: Latitud: " + lat + " , Longitud: " + lon;
+        }
+
+        function showPosition2(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById("location2").innerHTML = "Usuario 2: Latitud: " + lat + " , Longitud: " + lon;
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("Permiso de geolocalización denegado.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Información de ubicación no disponible.");
+                    break;
+                case error.TIMEOUT:
+                    alert("La solicitud de ubicación ha expirado.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("Ha ocurrido un error desconocido.");
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
